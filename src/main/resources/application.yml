@@ -9,3 +9,10 @@ server:
 #  mvc:
 #    view:
 #      suffix: .html
+
+# /actuator 경로를 통해 endpoint 전체 개요를 볼 수 있도록 하는 설정
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
