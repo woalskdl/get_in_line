@@ -1,8 +1,8 @@
 server:
   port: 8078
-#  error:
-#    whitelabel:
-#      enabled: false # 기본 에러 페이지를 비활성화
+  error:
+    whitelabel:
+      enabled: false # 기본 에러 페이지를 비활성화
 
 ## 없어도 됨
 #spring:
