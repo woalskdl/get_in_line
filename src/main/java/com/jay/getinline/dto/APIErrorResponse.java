@@ -1,15 +1,12 @@
 package com.jay.getinline.dto;
 
 import com.jay.getinline.constant.ErrorCode;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 @Getter
 @ToString
 @EqualsAndHashCode
-@RequiredArgsConstructor
+@RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public class APIErrorResponse {
 
     private final Boolean success;

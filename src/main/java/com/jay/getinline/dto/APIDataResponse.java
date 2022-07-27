@@ -1,5 +1,13 @@
 package com.jay.getinline.dto;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.ToString;
+
+@Getter
+@ToString
+@EqualsAndHashCode(callSuper = true)
 public class APIDataResponse extends APIErrorResponse {
 
     private final Object data;
