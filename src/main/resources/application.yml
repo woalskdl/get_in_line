@@ -17,4 +17,4 @@ management:
       exposure:
         include: "*"
 
-debug: true
+#debug: true
