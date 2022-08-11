@@ -2,7 +2,7 @@ package com.jay.getinline.dto;
 
 import com.jay.getinline.constant.PlaceType;
 
-public record PlaceDTO(
+public record PlaceResponse(
         PlaceType placeType,
         String placeName,
         String address,
@@ -10,7 +10,7 @@ public record PlaceDTO(
         int capacity,
         String memo
 ) {
-    public static PlaceDTO of(
+    public static PlaceResponse of(
             PlaceType placeType,
             String placeName,
             String address,
@@ -18,6 +18,6 @@ public record PlaceDTO(
             int capacity,
             String memo
     ) {
-        return new PlaceDTO(placeType, placeName, address, phoneNumber, capacity, memo);
+        return new PlaceResponse(placeType, placeName, address, phoneNumber, capacity, memo);
     }
 }
