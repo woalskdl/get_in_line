@@ -2,8 +2,6 @@ package com.jay.getinline.dto;
 
 import com.jay.getinline.constant.PlaceType;
 
-import java.time.LocalDateTime;
-
 public record PlaceDTO(
         PlaceType placeType,
         String placeName,
