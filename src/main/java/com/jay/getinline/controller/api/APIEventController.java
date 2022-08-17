@@ -3,30 +3,39 @@ package com.jay.getinline.controller.api;
 import com.jay.getinline.constant.EventStatus;
 import com.jay.getinline.dto.APIDataResponse;
 import com.jay.getinline.dto.EventResponse;
+import com.jay.getinline.service.EventService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+@RequiredArgsConstructor
 @RequestMapping("/api")
 @RestController
 public class APIEventController {
 
+    private final EventService eventService;
+
+    // @RequestParam 어노테이션 없으면 required=false 로 자동 적용
     @GetMapping("/events")
-    public APIDataResponse<List<EventResponse>> getEvents() {
-//        throw new HttpRequestMethodNotSupportedException("스프링 에러 테스트");
-        return APIDataResponse.of(List.of(EventResponse.of(
-                1L,
-                "오후 운동",
-                EventStatus.OPENED,
-                LocalDateTime.of(2022, 8, 3, 9, 0, 1),
-                LocalDateTime.of(2022, 8, 3, 18, 0, 1),
-                30,
-                50,
-                "마스크를 꼭 착용하세요."
-        )));
+    public APIDataResponse<List<EventResponse>> getEvents(
+            Long placeId,
+            String eventName,
+            EventStatus eventStatus,
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime eventStartDateTime,
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime eventEndDateTime
+    ) {
+        List<EventResponse> response = eventService
+                .getEvents(placeId, eventName, eventStatus, eventStartDateTime, eventEndDateTime)
+                .stream().map(EventResponse::from).toList();
+
+        return APIDataResponse.of(response);
     }
 
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/events")
     public APIDataResponse<Boolean> createEvent() {
 //        throw new GeneralException("장군님");
