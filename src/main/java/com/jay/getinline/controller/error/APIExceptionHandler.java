@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import javax.servlet.http.HttpServletResponse;
+import javax.validation.ConstraintViolationException;
 
 // API JSON Response 응답
 // RestController 어노테이션 사용하는 클래스의 Exception
@@ -26,6 +26,19 @@ public class APIExceptionHandler extends ResponseEntityExceptionHandler {
         HttpStatus status = errorCode.isClientSideError() ?
                 HttpStatus.BAD_REQUEST :
                 HttpStatus.INTERNAL_SERVER_ERROR;
+
+        return super.handleExceptionInternal(e,
+                APIErrorResponse.of(false, errorCode.getCode(), errorCode.getMessage(e)),
+                HttpHeaders.EMPTY,
+                status,
+                request
+        );
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<Object> general(ConstraintViolationException e, WebRequest request) {
+        ErrorCode errorCode = ErrorCode.VALIDATION_ERROR;
+        HttpStatus status = HttpStatus.BAD_REQUEST;
 
         return super.handleExceptionInternal(e,
                 APIErrorResponse.of(false, errorCode.getCode(), errorCode.getMessage(e)),
