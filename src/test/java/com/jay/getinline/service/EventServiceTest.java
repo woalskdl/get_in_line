@@ -1,11 +1,15 @@
 package com.jay.getinline.service;
 
+import com.jay.getinline.constant.ErrorCode;
 import com.jay.getinline.constant.EventStatus;
 import com.jay.getinline.dto.EventDTO;
+import com.jay.getinline.exception.GeneralException;
 import com.jay.getinline.repository.EventRepository;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -15,6 +19,8 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 
@@ -43,6 +49,24 @@ class EventServiceTest {
         // Then
         assertThat(list).hasSize(2);
 //        verify(eventRepository).findEvents(null, null, null, null, null);
+        then(eventRepository).should().findEvents(null, null, null, null, null);
+    }
+
+    @DisplayName("이벤트를 검색하는데 에러가 발생할 경우, 줄서기 프로젝트 기본 에러로 전환하여 예외를 출력한다.")
+    @Test
+    void givenDataRelatedException_whenSearchingEvents_thenReturnGeneralException() {
+        // Given
+        RuntimeException e = new RuntimeException("This is test.");
+        given(eventRepository.findEvents(any(), any(), any(), any(), any()))
+                .willThrow(e);
+
+        // When
+        Throwable throwable = catchThrowable(() -> sut.getEvents(null, null, null, null, null));
+
+        // Then
+        assertThat(throwable)
+                .isInstanceOf(GeneralException.class)
+                .hasMessageContaining(ErrorCode.DATA_ACCESS_ERROR.getMessage());
         then(eventRepository).should().findEvents(null, null, null, null, null);
     }
 
@@ -114,6 +138,24 @@ class EventServiceTest {
         // Then
         assertThat(result).isEmpty();
         then(eventRepository).should().findEvent(eventId);
+    }
+
+    @DisplayName("이벤트 ID로 이벤트를 검색하는데 에러가 발생할 경우, 줄서기 프로젝트 기본 에러로 전환하여 예외를 출력한다.")
+    @Test
+    void givenDataRelatedException_whenSearchingEvent_thenReturnGeneralException() {
+        // Given
+        RuntimeException e = new RuntimeException("This is test.");
+        given(eventRepository.findEvent(any()))
+                .willThrow(e);
+
+        // When
+        Throwable throwable = catchThrowable(() -> sut.getEvent(null));
+
+        // Then
+        assertThat(throwable)
+                .isInstanceOf(GeneralException.class)
+                .hasMessageContaining(ErrorCode.DATA_ACCESS_ERROR.getMessage());
+        then(eventRepository).should().findEvent(null);
     }
 
     @DisplayName("이벤트 정보를 주면 이벤트를 생성하고 결과를 true로 보여준다.")

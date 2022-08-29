@@ -3,6 +3,8 @@ package com.jay.getinline.dto;
 import com.jay.getinline.constant.ErrorCode;
 import lombok.*;
 
+import javax.validation.ConstraintViolationException;
+
 @Getter
 @ToString
 @EqualsAndHashCode
@@ -23,5 +25,9 @@ public class APIErrorResponse {
 
     public static APIErrorResponse of(Boolean success, ErrorCode errorCode, String message) {
         return new APIErrorResponse(success, errorCode.getCode(), errorCode.getMessage(message));
+    }
+
+    public static APIErrorResponse of(Boolean success, ErrorCode errorCode, Exception e) {
+        return new APIErrorResponse(success, errorCode.getCode(), errorCode.getMessage(e));
     }
 }
