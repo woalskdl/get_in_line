@@ -6,6 +6,7 @@ import com.jay.getinline.dto.EventDTO;
 import com.jay.getinline.exception.GeneralException;
 import com.jay.getinline.repository.EventRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
