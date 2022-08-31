@@ -33,6 +33,10 @@ spring:
   # bean 등록 시기를 실제로 해당 서비스를 사용할 때 등록하도록 설정 - 서버 시작은 빨라지나 서비스 속도는 느려질 수 있음
 #  main:
 #    lazy-initialization: true
+  thymeleaf:
+    cache: false
+  thymeleaf3:
+    decoupled-logic: true
 
 # profile 구분자
 ---
