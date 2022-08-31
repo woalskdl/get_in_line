@@ -2,7 +2,6 @@ package com.jay.getinline.controller.api;
 
 import com.jay.getinline.constant.EventStatus;
 import com.jay.getinline.dto.APIDataResponse;
-import com.jay.getinline.dto.EventDTO;
 import com.jay.getinline.dto.EventRequest;
 import com.jay.getinline.dto.EventResponse;
 import com.jay.getinline.service.EventService;
@@ -46,7 +45,7 @@ public class APIEventController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/events")
-    public APIDataResponse<String> createEvent(@RequestBody EventRequest eventRequest) {
+    public APIDataResponse<String> createEvent(@RequestBody @Valid EventRequest eventRequest) {
         log.debug("보고 싶은 값 : {}", eventRequest);
         boolean result = eventService.createEvent(eventRequest.toDTO());
         return APIDataResponse.of(Boolean.toString(result));
