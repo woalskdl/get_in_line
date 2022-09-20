@@ -18,11 +18,13 @@ import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.List;
 
+// data-rest 를 이용할 경우 현재 API 를 타지 않는다. 세팅된 기본 동작으로 작동함.
+
 @Slf4j
-@Validated
+//@Validated
 @RequiredArgsConstructor
-@RequestMapping("/api")
-@RestController
+//@RequestMapping("/api")
+//@RestController
 public class APIEventController {
 
     private final EventService eventService;

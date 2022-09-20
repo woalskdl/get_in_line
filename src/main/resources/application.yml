@@ -25,11 +25,12 @@ logging:
     com.jay.getinline: debug
     # api 호출 과정을 debug 레벨로 관찰
     org.springframeworkd.web.servlet: debug
+    org.hibernate.type.descriptor.sql.BasicBinder: trace
 
 spring:
-  config:
-    activate:
-      on-profile: jay
+#  config:
+#    activate:
+#      on-profile: jay
   # bean 등록 시기를 실제로 해당 서비스를 사용할 때 등록하도록 설정 - 서버 시작은 빨라지나 서비스 속도는 느려질 수 있음
 #  main:
 #    lazy-initialization: true
@@ -37,14 +38,25 @@ spring:
     cache: false
   thymeleaf3:
     decoupled-logic: true
+  jpa:
+    defer-datasource-initialization: true
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+  data:
+    rest:
+      base-path: /api
 
 # profile 구분자
 ---
 
 # 다른 profile
-spring:
-  config:
-    activate:
-      on-profile: kay
+#spring:
+#  config:
+#    activate:
+#      on-profile: kay
       # 옛날 설정 가능하도록 하는 설정
 #    use-legacy-processing: true
