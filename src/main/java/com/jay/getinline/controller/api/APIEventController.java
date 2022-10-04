@@ -20,11 +20,19 @@ import java.util.List;
 
 // data-rest 를 이용할 경우 현재 API 를 타지 않는다. 세팅된 기본 동작으로 작동함.
 
-@Slf4j
-//@Validated
+/**
+ * Spring Data REST 로 API 를 만들어서 당장 필요가 없어진 컨트롤러.
+ * 우선 deprecated 하고, 향후 사용 방안을 고민해 본다.
+ * 필요에 따라서는 다시 살릴 수도 있음
+ *
+ * @deprecated 0.1.2
+ */
+@Deprecated
 @RequiredArgsConstructor
+//@Validated
 //@RequestMapping("/api")
 //@RestController
+@Slf4j
 public class APIEventController {
 
     private final EventService eventService;

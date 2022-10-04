@@ -23,6 +23,7 @@ public class EventController {
         Map<String, Object> map = new HashMap<>();
         map.put("events", List.of(EventResponse.of(
                         1L,
+                        1L,
                         "오후 운동",
                         EventStatus.OPENED,
                         LocalDateTime.of(2022, 8, 31, 9, 0, 0),
@@ -32,6 +33,7 @@ public class EventController {
                         "마스크 꼭 착용하세요"
                 ), EventResponse.of(
                         2L,
+                        1L,
                         "오후 운동",
                         EventStatus.OPENED,
                         LocalDateTime.of(2022, 8, 31, 9, 0, 0),
@@ -47,9 +49,10 @@ public class EventController {
     }
 
     @GetMapping("/{eventId}")
-    public ModelAndView eventDetail(@PathVariable Integer eventId) {
+    public ModelAndView eventDetail(@PathVariable Long eventId) {
         Map<String, Object> map = new HashMap<>();
         map.put("event", EventResponse.of(
+                eventId,
                 1L,
                 "오후 운동",
                 EventStatus.OPENED,

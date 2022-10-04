@@ -3,6 +3,7 @@ package com.jay.getinline.controller.error;
 import com.jay.getinline.constant.ErrorCode;
 import com.jay.getinline.dto.APIErrorResponse;
 import com.jay.getinline.exception.GeneralException;
+import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +18,7 @@ import javax.validation.ConstraintViolationException;
 // API JSON Response 응답
 // RestController 어노테이션 사용하는 클래스의 Exception
 // ResponseEntityExceptionHandler 상속 받아 기본 예외 페이지도 override
-@RestControllerAdvice(annotations = RestController.class)
+@RestControllerAdvice(annotations = {RestController.class, RepositoryRestController.class})
 public class APIExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler

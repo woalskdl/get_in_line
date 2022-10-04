@@ -5,13 +5,14 @@ import com.jay.getinline.constant.EventStatus;
 import com.jay.getinline.dto.EventDTO;
 import com.jay.getinline.exception.GeneralException;
 import com.jay.getinline.repository.EventRepository;
+import com.querydsl.core.types.Predicate;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.StreamSupport;
 
 /**
  * @author jay
@@ -23,6 +24,16 @@ public class EventService {
 
     private final EventRepository eventRepository;
 
+    public List<EventDTO> getEvents(Predicate predicate) {
+        try {
+            return StreamSupport.stream(eventRepository.findAll(predicate).spliterator(), false)
+                    .map(EventDTO::of)
+                    .toList();
+        } catch (Exception e) {
+            throw new GeneralException(ErrorCode.DATA_ACCESS_ERROR, e);
+        }
+    }
+
     public List<EventDTO> getEvents(
             Long placeId,
             String eventName,
@@ -31,7 +42,8 @@ public class EventService {
             LocalDateTime eventEndDateTime
     ) {
         try {
-            return eventRepository.findEvents(placeId, eventName, eventStatus, eventStartDateTime, eventEndDateTime);
+//            return eventRepository.findEvents(placeId, eventName, eventStatus, eventStartDateTime, eventEndDateTime);
+            return null;
         } catch (Exception e) {
             throw new GeneralException(ErrorCode.DATA_ACCESS_ERROR, e);
         }
@@ -39,21 +51,55 @@ public class EventService {
 
     public Optional<EventDTO> getEvent(Long eventId) {
         try {
-            return eventRepository.findEvent(eventId);
+//            return eventRepository.findEvent(eventId);
+            return eventRepository.findById(eventId).map(EventDTO::of);
         } catch (Exception e) {
             throw new GeneralException(ErrorCode.DATA_ACCESS_ERROR, e);
         }
     }
 
     public boolean createEvent(EventDTO eventDTO) {
-        return eventRepository.insertEvent(eventDTO);
+        try {
+//            return eventRepository.insertEvent(eventDTO);
+            if (eventDTO == null) {
+                return false;
+            }
+
+            eventRepository.save(eventDTO.toEntity());
+            return true;
+
+        } catch (Exception e) {
+            throw new GeneralException(ErrorCode.DATA_ACCESS_ERROR, e);
+        }
     }
 
-    public boolean modifyEvent(Long eventId, EventDTO eventDTO) {
-        return eventRepository.updateEvent(eventId, eventDTO);
+    public boolean modifyEvent(Long eventId, EventDTO dto) {
+        try {
+//            return eventRepository.updateEvent(eventId, eventDTO);
+            if (eventId == null || dto == null) {
+                return false;
+            }
+
+            eventRepository.findById(eventId)
+                    .ifPresent(event -> eventRepository.save(dto.updateEntity(event)));
+
+            return true;
+        } catch (Exception e) {
+            throw new GeneralException(ErrorCode.DATA_ACCESS_ERROR, e);
+        }
     }
 
     public boolean removeEvent(Long eventId) {
-        return eventRepository.deleteEvent(eventId);
+        try {
+//            return eventRepository.deleteEvent(eventId);
+            if (eventId == null) {
+                return false;
+            }
+
+            eventRepository.deleteById(eventId);
+            return true;
+        } catch (Exception e) {
+            throw new GeneralException(ErrorCode.DATA_ACCESS_ERROR, e);
+        }
     }
 }

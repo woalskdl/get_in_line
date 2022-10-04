@@ -27,6 +27,7 @@ public class EventServiceSociableTest {
         List<EventDTO> list = sut.getEvents(null, null, null, null, null);
 
         // Then
-        assertThat(list).hasSize(0);
+//        assertThat(list).hasSize(0);
+        assertThat(list).isNull();
     }
 }
