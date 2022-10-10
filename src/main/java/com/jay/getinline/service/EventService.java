@@ -8,6 +8,7 @@ import com.jay.getinline.repository.EventRepository;
 import com.querydsl.core.types.Predicate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -58,6 +59,7 @@ public class EventService {
         }
     }
 
+    @Transactional
     public boolean createEvent(EventDTO eventDTO) {
         try {
 //            return eventRepository.insertEvent(eventDTO);
