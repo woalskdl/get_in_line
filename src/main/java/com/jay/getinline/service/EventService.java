@@ -25,6 +25,7 @@ public class EventService {
 
     private final EventRepository eventRepository;
 
+    @Transactional(readOnly = true)
     public List<EventDTO> getEvents(Predicate predicate) {
         try {
             return StreamSupport.stream(eventRepository.findAll(predicate).spliterator(), false)
@@ -35,6 +36,7 @@ public class EventService {
         }
     }
 
+    @Transactional(readOnly = true)
     public List<EventDTO> getEvents(
             Long placeId,
             String eventName,
@@ -50,6 +52,7 @@ public class EventService {
         }
     }
 
+    @Transactional(readOnly = true)
     public Optional<EventDTO> getEvent(Long eventId) {
         try {
 //            return eventRepository.findEvent(eventId);
@@ -75,6 +78,7 @@ public class EventService {
         }
     }
 
+    @Transactional
     public boolean modifyEvent(Long eventId, EventDTO dto) {
         try {
 //            return eventRepository.updateEvent(eventId, eventDTO);
@@ -91,6 +95,7 @@ public class EventService {
         }
     }
 
+    @Transactional
     public boolean removeEvent(Long eventId) {
         try {
 //            return eventRepository.deleteEvent(eventId);
