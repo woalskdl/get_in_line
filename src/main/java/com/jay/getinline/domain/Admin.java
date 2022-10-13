@@ -10,6 +10,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Getter
 @ToString
@@ -45,6 +47,10 @@ public class Admin {
 
     @Setter
     private String memo;
+
+    @ToString.Exclude
+    @OneToMany(mappedBy = "admin")
+    private final Set<AdminPlaceMap> adminPlaceMaps = new LinkedHashSet<>();
 
     @Column(nullable = false, insertable = false, updatable = false,
             columnDefinition = "datetime default CURRENT_TIMESTAMP")

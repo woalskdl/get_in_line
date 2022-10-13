@@ -11,8 +11,8 @@ public record EventResponse(
         EventStatus eventStatus,
         LocalDateTime eventStartDateTime,
         LocalDateTime eventEndDateTime,
-        int currentNumberOfPeople,
-        int capacity,
+        Integer currentNumberOfPeople,
+        Integer capacity,
         String memo
 ) {
     public static EventResponse of(
@@ -22,8 +22,8 @@ public record EventResponse(
             EventStatus eventStatus,
             LocalDateTime eventStartDateTime,
             LocalDateTime eventEndDateTime,
-            int currentNumberOfPeople,
-            int capacity,
+            Integer currentNumberOfPeople,
+            Integer capacity,
             String memo
     ) {
         return new EventResponse(id, placeId, eventName, eventStatus, eventStartDateTime, eventEndDateTime, currentNumberOfPeople, capacity, memo);

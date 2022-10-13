@@ -11,6 +11,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Getter
 @ToString
@@ -30,7 +32,7 @@ public class Place {
     private Long id;
 
     @Setter
-    @Column(nullable = false, columnDefinition = "varchar default 'COMMON'")
+    @Column(nullable = false, columnDefinition = "varchar(20) default 'COMMON'")
     @Enumerated(EnumType.STRING)
     private PlaceType placeType;
 
@@ -62,6 +64,16 @@ public class Place {
             columnDefinition = "datetime default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP")
     @LastModifiedDate
     private LocalDateTime modifiedAt;
+
+    @ToString.Exclude
+    @OrderBy("id")
+    @OneToMany(mappedBy = "place")
+    private final Set<Event> events = new LinkedHashSet<>();
+
+    @ToString.Exclude
+    @OrderBy("id")
+    @OneToMany(mappedBy = "place")
+    private final Set<AdminPlaceMap> adminPlaceMaps = new LinkedHashSet<>();
 
     protected Place() {
     }

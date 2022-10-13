@@ -43,7 +43,7 @@ import java.time.LocalDateTime;
 @ToString
 @EqualsAndHashCode
 @Table(indexes = {
-        @Index(columnList = "placeId"),
+//        @Index(columnList = "placeId"),
         @Index(columnList = "eventName"),
         @Index(columnList = "eventStartDatetime"),
         @Index(columnList = "eventEndDatetime"),
@@ -62,15 +62,17 @@ public class Event
     private Long id;
 
     @Setter
-    @Column(nullable = false)
-    private Long placeId;
+//    @Column(nullable = false)
+//    private Long placeId;
+    @ManyToOne(optional = false)
+    private Place place;
 
     @Setter
     @Column(nullable = false)
     private String eventName;
 
     @Setter
-    @Column(nullable = false, columnDefinition = "varchar default 'OPENED'")
+    @Column(nullable = false, columnDefinition = "varchar(20) default 'OPENED'")
     @Enumerated(EnumType.STRING)
     private EventStatus eventStatus;
 
@@ -94,7 +96,7 @@ public class Event
 
     @Column(nullable = false, insertable = false, updatable = false
             // 생략 가능 (아래 @CreatedDate 와 동일함 / 스키마 레벨에서 명확하게 표현하기 위해 씀)
-//           , columnDefinition = "datetime default CURRENT_TIMESTAMP"
+           , columnDefinition = "datetime default CURRENT_TIMESTAMP"
     )
     @CreatedDate
     private LocalDateTime createdAt;
@@ -112,7 +114,7 @@ public class Event
     protected Event() {}
 
     protected Event(
-            Long placeId,
+            Place place,
             String eventName,
             EventStatus eventStatus,
             LocalDateTime eventStartDatetime,
@@ -121,7 +123,7 @@ public class Event
             Integer capacity,
             String memo
     ) {
-        this.placeId = placeId;
+        this.place = place;
         this.eventName = eventName;
         this.eventStatus = eventStatus;
         this.eventStartDatetime = eventStartDatetime;
@@ -132,7 +134,7 @@ public class Event
     }
 
     public static Event of(
-            Long placeId,
+            Place place,
             String eventName,
             EventStatus eventStatus,
             LocalDateTime eventStartDatetime,
@@ -142,7 +144,7 @@ public class Event
             String memo
     ) {
         return new Event(
-                placeId,
+                place,
                 eventName,
                 eventStatus,
                 eventStartDatetime,
