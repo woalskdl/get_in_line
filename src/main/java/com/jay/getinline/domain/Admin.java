@@ -53,12 +53,12 @@ public class Admin {
     private final Set<AdminPlaceMap> adminPlaceMaps = new LinkedHashSet<>();
 
     @Column(nullable = false, insertable = false, updatable = false,
-            columnDefinition = "datetime default CURRENT_TIMESTAMP")
+            columnDefinition = "timestamp default CURRENT_TIMESTAMP")
     @CreatedDate
     private LocalDateTime createdAt;
 
     @Column(nullable = false, insertable = false, updatable = false,
-            columnDefinition = "datetime default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP")
+            columnDefinition = "timestamp default CURRENT_TIMESTAMP")
     @LastModifiedDate
     private LocalDateTime modifiedAt;
 

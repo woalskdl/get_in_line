@@ -77,11 +77,11 @@ public class Event
     private EventStatus eventStatus;
 
     @Setter
-    @Column(nullable = false, columnDefinition = "datetime")
+    @Column(nullable = false, columnDefinition = "timestamp")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime eventStartDatetime;
 
-    @Setter @Column(nullable = false, columnDefinition = "datetime")
+    @Setter @Column(nullable = false, columnDefinition = "timestamp")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime eventEndDatetime;
 
@@ -96,14 +96,14 @@ public class Event
 
     @Column(nullable = false, insertable = false, updatable = false
             // 생략 가능 (아래 @CreatedDate 와 동일함 / 스키마 레벨에서 명확하게 표현하기 위해 씀)
-           , columnDefinition = "datetime default CURRENT_TIMESTAMP"
+           , columnDefinition = "timestamp default CURRENT_TIMESTAMP"
     )
     @CreatedDate
     private LocalDateTime createdAt;
 
     // insertable, updatetable : 스키마 insert, update 할때 컬럼이 포함되지 않는다.
     @Column(nullable = false, insertable = false, updatable = false,
-            columnDefinition = "datetime default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP")
+            columnDefinition = "timestamp default CURRENT_TIMESTAMP")
     @LastModifiedDate
     private LocalDateTime modifiedAt;
 
