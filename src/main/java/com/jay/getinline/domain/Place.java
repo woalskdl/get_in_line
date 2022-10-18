@@ -12,11 +12,12 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Getter
 @ToString
-@EqualsAndHashCode
+//@EqualsAndHashCode
 @Table(indexes = {
         @Index(columnList = "placeName"),
         @Index(columnList = "address"),
@@ -103,5 +104,17 @@ public class Place {
             String memo
     ) {
         return new Place(placeType, placeName, address, phoneNumber, capacity, memo);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        return id != null && id.equals(((Place) obj).getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(placeName, address, phoneNumber, createdAt, modifiedAt);
     }
 }

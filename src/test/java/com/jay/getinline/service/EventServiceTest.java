@@ -203,6 +203,10 @@ class EventServiceTest {
 
         // Then
         assertThat(result).isTrue();
+        assertThat(originalEvent.getEventName()).isEqualTo(changedEvent.getEventName());
+        assertThat(originalEvent.getEventStartDatetime()).isEqualTo(changedEvent.getEventStartDatetime());
+        assertThat(originalEvent.getEventEndDatetime()).isEqualTo(changedEvent.getEventEndDatetime());
+        assertThat(originalEvent.getEventStatus()).isEqualTo(changedEvent.getEventStatus());
         then(eventRepository).should().findById(eventId);
         then(eventRepository).should().save(changedEvent);
     }
@@ -314,16 +318,20 @@ class EventServiceTest {
             LocalDateTime eventStartDateTime,
             LocalDateTime eventEndDateTime
     ) {
-        return Event.of(
-                createPlace(placeId),
-                eventName,
-                eventStatus,
-                eventStartDateTime,
-                eventEndDateTime,
-                0,
-                24,
-                "마스크 꼭 착용하세요"
+        Event event =  Event.of(
+                        createPlace(placeId),
+                        eventName,
+                        eventStatus,
+                        eventStartDateTime,
+                        eventEndDateTime,
+                        0,
+                        24,
+                        "마스크 꼭 착용하세요"
         );
+
+        ReflectionTestUtils.setField(event, "id", id);
+
+        return event;
     }
 
     private Event createEvent(
