@@ -82,7 +82,8 @@ public class Event
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime eventStartDatetime;
 
-    @Setter @Column(nullable = false, columnDefinition = "timestamp")
+    @Setter
+    @Column(nullable = false, columnDefinition = "datetime")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime eventEndDatetime;
 

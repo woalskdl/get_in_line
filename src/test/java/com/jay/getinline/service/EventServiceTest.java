@@ -125,7 +125,7 @@ class EventServiceTest {
     void givenEvent_whenCreating_thenCreatesEventAndReturnsTrue() {
         // Given
         EventDTO eventDTO = EventDTO.of(createEvent("오후 운동", false));
-        given(placeRepository.findById(eventDTO.placeId())).willReturn(Optional.of(createPlace()));
+        given(placeRepository.findById(eventDTO.placeDTO().id())).willReturn(Optional.of(createPlace()));
         given(eventRepository.save(any(Event.class))).willReturn(any());
 
         // When
@@ -133,7 +133,7 @@ class EventServiceTest {
 
         // Then
         assertThat(result).isTrue();
-        then(placeRepository).should().findById(eventDTO.placeId());
+        then(placeRepository).should().findById(eventDTO.placeDTO().id());
         then(eventRepository).should().save(any(Event.class));
     }
 
