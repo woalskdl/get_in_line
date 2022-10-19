@@ -49,7 +49,8 @@ test {
     useJUnitPlatform()
 }
 
-// querydsl 적용
+// querydsl 적용 - intellij 와 gradle 의 기능이 충돌(서로 build 하려는 위치가 동일)해서 수동으로 별도로 설정해주는 것
+// / 설정에서 build tool > gradle 에서 gradle 이 아닌 intellij 로 설정해야함
 def generated='src/main/generated'
 
 // java source set 에 querydsl QClass 위치 추가
