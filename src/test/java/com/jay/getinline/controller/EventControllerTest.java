@@ -1,6 +1,6 @@
 package com.jay.getinline.controller;
 
-import com.jay.getinline.dto.EventDTO;
+import com.jay.getinline.dto.EventDto;
 import com.jay.getinline.service.EventService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -52,7 +52,7 @@ class EventControllerTest {
         // Given
         long eventId = 1L;
         given(eventService.getEvent(eventId)).willReturn(Optional.of(
-                EventDTO.of(eventId, null, null, null, null, null, null, null, null, null, null)
+                EventDto.of(eventId, null, null, null, null, null, null, null, null, null, null)
         ));
 
         // When & Then

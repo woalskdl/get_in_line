@@ -5,7 +5,7 @@ import com.jay.getinline.domain.Place;
 
 import java.time.LocalDateTime;
 
-public record PlaceDTO (
+public record PlaceDto(
         Long id,
         PlaceType placeType,
         String placeName,
@@ -16,7 +16,7 @@ public record PlaceDTO (
         LocalDateTime createdAt,
         LocalDateTime modifiedAt
 ){
-    public static PlaceDTO of(
+    public static PlaceDto of(
             Long id,
             PlaceType placeType,
             String placeName,
@@ -27,11 +27,11 @@ public record PlaceDTO (
             LocalDateTime createdAt,
             LocalDateTime modifiedAt
     ) {
-        return new PlaceDTO(id, placeType, placeName, address, phoneNumber, capacity, memo, createdAt, modifiedAt);
+        return new PlaceDto(id, placeType, placeName, address, phoneNumber, capacity, memo, createdAt, modifiedAt);
     }
 
-    public static PlaceDTO of(Place place) {
-        return new PlaceDTO(
+    public static PlaceDto of(Place place) {
+        return new PlaceDto(
                 place.getId(),
                 place.getPlaceType(),
                 place.getPlaceName(),

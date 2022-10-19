@@ -1,7 +1,7 @@
 package com.jay.getinline.service;
 
 import com.jay.getinline.constant.ErrorCode;
-import com.jay.getinline.dto.PlaceDTO;
+import com.jay.getinline.dto.PlaceDto;
 import com.jay.getinline.exception.GeneralException;
 import com.jay.getinline.repository.PlaceRepository;
 import com.querydsl.core.types.Predicate;
@@ -18,25 +18,25 @@ public class PlaceService {
 
     private final PlaceRepository placeRepository;
 
-    public List<PlaceDTO> getPlaces(Predicate predicate) {
+    public List<PlaceDto> getPlaces(Predicate predicate) {
         try {
             return StreamSupport.stream(placeRepository.findAll(predicate).spliterator(), false)
-                    .map(PlaceDTO::of)
+                    .map(PlaceDto::of)
                     .toList();
         } catch (Exception e) {
             throw new GeneralException(ErrorCode.DATA_ACCESS_ERROR, e);
         }
     }
 
-    public Optional<PlaceDTO> getPlace(Long placeId) {
+    public Optional<PlaceDto> getPlace(Long placeId) {
         try {
-            return placeRepository.findById(placeId).map(PlaceDTO::of);
+            return placeRepository.findById(placeId).map(PlaceDto::of);
         } catch (Exception e) {
             throw new GeneralException(ErrorCode.DATA_ACCESS_ERROR, e);
         }
     }
 
-    public boolean createPlace(PlaceDTO PlaceDTO) {
+    public boolean createPlace(PlaceDto PlaceDTO) {
         try {
             if (PlaceDTO == null) {
                 return false;
@@ -49,7 +49,7 @@ public class PlaceService {
         }
     }
 
-    public boolean modifyPlace(Long placeId, PlaceDTO dto) {
+    public boolean modifyPlace(Long placeId, PlaceDto dto) {
         try {
             if (placeId == null || dto == null) {
                 return false;

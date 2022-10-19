@@ -3,7 +3,7 @@ package com.jay.getinline.service;
 import com.jay.getinline.constant.ErrorCode;
 import com.jay.getinline.constant.PlaceType;
 import com.jay.getinline.domain.Place;
-import com.jay.getinline.dto.PlaceDTO;
+import com.jay.getinline.dto.PlaceDto;
 import com.jay.getinline.exception.GeneralException;
 import com.jay.getinline.repository.PlaceRepository;
 import com.querydsl.core.BooleanBuilder;
@@ -43,7 +43,7 @@ class PlaceServiceTest {
                         createPlace(PlaceType.SPORTS, "체육관")
                 ));
         // When
-        List<PlaceDTO> list = sut.getPlaces(new BooleanBuilder());
+        List<PlaceDto> list = sut.getPlaces(new BooleanBuilder());
         // Then
         assertThat(list).hasSize(2);
         then(placeRepository).should().findAll(any(Predicate.class));
@@ -72,9 +72,9 @@ class PlaceServiceTest {
         Place place = createPlace(PlaceType.SPORTS, "체육관");
         given(placeRepository.findById(placeId)).willReturn(Optional.of(place));
         // When
-        Optional<PlaceDTO> result = sut.getPlace(placeId);
+        Optional<PlaceDto> result = sut.getPlace(placeId);
         // Then
-        assertThat(result).hasValue(PlaceDTO.of(place));
+        assertThat(result).hasValue(PlaceDto.of(place));
         then(placeRepository).should().findById(placeId);
     }
 
@@ -85,7 +85,7 @@ class PlaceServiceTest {
         long placeId = 2L;
         given(placeRepository.findById(placeId)).willReturn(Optional.empty());
         // When
-        Optional<PlaceDTO> result = sut.getPlace(placeId);
+        Optional<PlaceDto> result = sut.getPlace(placeId);
         // Then
         assertThat(result).isEmpty();
         then(placeRepository).should().findById(placeId);
@@ -114,7 +114,7 @@ class PlaceServiceTest {
         given(placeRepository.save(any(Place.class))).willReturn(place);
 
         // When
-        boolean result = sut.createPlace(PlaceDTO.of(place));
+        boolean result = sut.createPlace(PlaceDto.of(place));
 
         // Then
         assertThat(result).isTrue();
@@ -140,7 +140,7 @@ class PlaceServiceTest {
         RuntimeException e = new RuntimeException("This is test.");
         given(placeRepository.save(any())).willThrow(e);
         // When
-        Throwable thrown = catchThrowable(() -> sut.createPlace(PlaceDTO.of(place)));
+        Throwable thrown = catchThrowable(() -> sut.createPlace(PlaceDto.of(place)));
         // Then
         assertThat(thrown)
                 .isInstanceOf(GeneralException.class)
@@ -158,7 +158,7 @@ class PlaceServiceTest {
         given(placeRepository.findById(placeId)).willReturn(Optional.of(originalPlace));
         given(placeRepository.save(changedPlace)).willReturn(changedPlace);
         // When
-        boolean result = sut.modifyPlace(placeId, PlaceDTO.of(changedPlace));
+        boolean result = sut.modifyPlace(placeId, PlaceDto.of(changedPlace));
         // Then
         assertThat(result).isTrue();
         then(placeRepository).should().findById(placeId);
@@ -171,7 +171,7 @@ class PlaceServiceTest {
         // Given
         Place place = createPlace(PlaceType.SPORTS, "체육관");
         // When
-        boolean result = sut.modifyPlace(null, PlaceDTO.of(place));
+        boolean result = sut.modifyPlace(null, PlaceDto.of(place));
         // Then
         assertThat(result).isFalse();
         then(placeRepository).shouldHaveNoInteractions();
@@ -200,7 +200,7 @@ class PlaceServiceTest {
         given(placeRepository.findById(placeId)).willReturn(Optional.of(originalPlace));
         given(placeRepository.save(any())).willThrow(e);
         // When
-        Throwable thrown = catchThrowable(() -> sut.modifyPlace(placeId, PlaceDTO.of(wrongPlace)));
+        Throwable thrown = catchThrowable(() -> sut.modifyPlace(placeId, PlaceDto.of(wrongPlace)));
         // Then
         assertThat(thrown)
                 .isInstanceOf(GeneralException.class)

@@ -31,8 +31,8 @@ public record EventRequest(
         return new EventRequest(placeId, eventName, eventStatus, eventStartDateTime, eventEndDateTime, currentNumberOfPeople, capacity, memo);
     }
 
-    public EventDTO toDTO() {
-        return EventDTO.of(
+    public EventDto toDTO() {
+        return EventDto.of(
                 null,
                 null,
                 this.eventName,

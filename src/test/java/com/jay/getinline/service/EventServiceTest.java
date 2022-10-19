@@ -5,7 +5,7 @@ import com.jay.getinline.constant.EventStatus;
 import com.jay.getinline.constant.PlaceType;
 import com.jay.getinline.domain.Event;
 import com.jay.getinline.domain.Place;
-import com.jay.getinline.dto.EventDTO;
+import com.jay.getinline.dto.EventDto;
 import com.jay.getinline.exception.GeneralException;
 import com.jay.getinline.repository.EventRepository;
 import com.jay.getinline.repository.PlaceRepository;
@@ -48,7 +48,7 @@ class EventServiceTest {
                 ));
 
         // When
-        List<EventDTO> list = sut.getEvents(new BooleanBuilder());
+        List<EventDto> list = sut.getEvents(new BooleanBuilder());
 
         // Then
         assertThat(list).hasSize(2);
@@ -81,10 +81,10 @@ class EventServiceTest {
         given(eventRepository.findById(eventId)).willReturn(Optional.of(event));
 
         // When
-        Optional<EventDTO> result = sut.getEvent(eventId);
+        Optional<EventDto> result = sut.getEvent(eventId);
 
         // Then
-        assertThat(result).hasValue(EventDTO.of(event));
+        assertThat(result).hasValue(EventDto.of(event));
         then(eventRepository).should().findById(eventId);
     }
 
@@ -96,7 +96,7 @@ class EventServiceTest {
         given(eventRepository.findById(eventId)).willReturn(Optional.empty());
 
         // When
-        Optional<EventDTO> result = sut.getEvent(eventId);
+        Optional<EventDto> result = sut.getEvent(eventId);
 
         // Then
         assertThat(result).isEmpty();
@@ -124,7 +124,7 @@ class EventServiceTest {
     @Test
     void givenEvent_whenCreating_thenCreatesEventAndReturnsTrue() {
         // Given
-        EventDTO eventDTO = EventDTO.of(createEvent("오후 운동", false));
+        EventDto eventDTO = EventDto.of(createEvent("오후 운동", false));
         given(placeRepository.findById(eventDTO.placeDTO().id())).willReturn(Optional.of(createPlace()));
         given(eventRepository.save(any(Event.class))).willReturn(any());
 
@@ -159,7 +159,7 @@ class EventServiceTest {
         given(placeRepository.findById(event.getPlace().getId())).willReturn(Optional.empty());
 
         // When
-        Throwable thrown = catchThrowable(() -> sut.createEvent(EventDTO.of(event)));
+        Throwable thrown = catchThrowable(() -> sut.createEvent(EventDto.of(event)));
 
         // Then
         assertThat(thrown)
@@ -179,7 +179,7 @@ class EventServiceTest {
         given(eventRepository.save(any())).willThrow(e);
 
         // When
-        Throwable thrown = catchThrowable(() -> sut.createEvent(EventDTO.of(event)));
+        Throwable thrown = catchThrowable(() -> sut.createEvent(EventDto.of(event)));
         // Then
         assertThat(thrown)
                 .isInstanceOf(GeneralException.class)
@@ -199,7 +199,7 @@ class EventServiceTest {
         given(eventRepository.save(changedEvent)).willReturn(changedEvent);
 
         // When
-        boolean result = sut.modifyEvent(eventId, EventDTO.of(changedEvent));
+        boolean result = sut.modifyEvent(eventId, EventDto.of(changedEvent));
 
         // Then
         assertThat(result).isTrue();
@@ -219,7 +219,7 @@ class EventServiceTest {
 
 
         // When
-        boolean result = sut.modifyEvent(null, EventDTO.of(event));
+        boolean result = sut.modifyEvent(null, EventDto.of(event));
 
         // Then
         assertThat(result).isFalse();
@@ -252,7 +252,7 @@ class EventServiceTest {
         given(eventRepository.save(any())).willThrow(e);
 
         // When
-        Throwable thrown = catchThrowable(() -> sut.modifyEvent(eventId, EventDTO.of(wrongEvent)));
+        Throwable thrown = catchThrowable(() -> sut.modifyEvent(eventId, EventDto.of(wrongEvent)));
 
         // Then
         assertThat(thrown)

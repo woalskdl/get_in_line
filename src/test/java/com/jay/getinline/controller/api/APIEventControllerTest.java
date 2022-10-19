@@ -4,9 +4,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jay.getinline.constant.ErrorCode;
 import com.jay.getinline.constant.EventStatus;
 import com.jay.getinline.constant.PlaceType;
-import com.jay.getinline.dto.EventDTO;
+import com.jay.getinline.dto.EventDto;
 import com.jay.getinline.dto.EventResponse;
-import com.jay.getinline.dto.PlaceDTO;
+import com.jay.getinline.dto.PlaceDto;
 import com.jay.getinline.service.EventService;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
@@ -316,8 +316,8 @@ class APIEventControllerTest {
                 .andExpect(jsonPath("$.message").value(containsString(ErrorCode.VALIDATION_ERROR.getMessage())));
         then(eventService).shouldHaveNoInteractions();
     }
-    private EventDTO createEventDTO() {
-        return EventDTO.of(
+    private EventDto createEventDTO() {
+        return EventDto.of(
                 1L,
                 createPlaceDto(1L),
                 "오후 운동",
@@ -332,8 +332,8 @@ class APIEventControllerTest {
         );
     }
 
-    private PlaceDTO createPlaceDto(Long placeId) {
-        return PlaceDTO.of(
+    private PlaceDto createPlaceDto(Long placeId) {
+        return PlaceDto.of(
                 placeId,
                 PlaceType.COMMON,
                 "배드민턴장",

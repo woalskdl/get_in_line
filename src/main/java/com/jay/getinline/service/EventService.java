@@ -3,7 +3,7 @@ package com.jay.getinline.service;
 import com.jay.getinline.constant.ErrorCode;
 import com.jay.getinline.constant.EventStatus;
 import com.jay.getinline.domain.Place;
-import com.jay.getinline.dto.EventDTO;
+import com.jay.getinline.dto.EventDto;
 import com.jay.getinline.exception.GeneralException;
 import com.jay.getinline.repository.EventRepository;
 import com.jay.getinline.repository.PlaceRepository;
@@ -29,10 +29,10 @@ public class EventService {
     private final PlaceRepository placeRepository;
 
     @Transactional(readOnly = true)
-    public List<EventDTO> getEvents(Predicate predicate) {
+    public List<EventDto> getEvents(Predicate predicate) {
         try {
             return StreamSupport.stream(eventRepository.findAll(predicate).spliterator(), false)
-                    .map(EventDTO::of)
+                    .map(EventDto::of)
                     .toList();
         } catch (Exception e) {
             throw new GeneralException(ErrorCode.DATA_ACCESS_ERROR, e);
@@ -40,7 +40,7 @@ public class EventService {
     }
 
     @Transactional(readOnly = true)
-    public List<EventDTO> getEvents(
+    public List<EventDto> getEvents(
             Long placeId,
             String eventName,
             EventStatus eventStatus,
@@ -56,17 +56,17 @@ public class EventService {
     }
 
     @Transactional(readOnly = true)
-    public Optional<EventDTO> getEvent(Long eventId) {
+    public Optional<EventDto> getEvent(Long eventId) {
         try {
 //            return eventRepository.findEvent(eventId);
-            return eventRepository.findById(eventId).map(EventDTO::of);
+            return eventRepository.findById(eventId).map(EventDto::of);
         } catch (Exception e) {
             throw new GeneralException(ErrorCode.DATA_ACCESS_ERROR, e);
         }
     }
 
     @Transactional
-    public boolean createEvent(EventDTO eventDTO) {
+    public boolean createEvent(EventDto eventDTO) {
         try {
 //            return eventRepository.insertEvent(eventDTO);
             if (eventDTO == null) {
@@ -85,7 +85,7 @@ public class EventService {
     }
 
     @Transactional
-    public boolean modifyEvent(Long eventId, EventDTO dto) {
+    public boolean modifyEvent(Long eventId, EventDto dto) {
         try {
 //            return eventRepository.updateEvent(eventId, eventDTO);
             if (eventId == null || dto == null) {

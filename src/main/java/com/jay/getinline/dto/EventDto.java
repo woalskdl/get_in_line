@@ -6,9 +6,9 @@ import com.jay.getinline.domain.Place;
 
 import java.time.LocalDateTime;
 
-public record EventDTO(
+public record EventDto(
         Long id,
-        PlaceDTO placeDTO,
+        PlaceDto placeDTO,
         String eventName,
         EventStatus eventStatus,
         LocalDateTime eventStartDateTime,
@@ -19,9 +19,9 @@ public record EventDTO(
         LocalDateTime createdAt,
         LocalDateTime modifiedAt
 ) {
-    public static EventDTO of(
+    public static EventDto of(
             Long id,
-            PlaceDTO placeDTO,
+            PlaceDto placeDTO,
             String eventName,
             EventStatus eventStatus,
             LocalDateTime eventStartDateTime,
@@ -32,7 +32,7 @@ public record EventDTO(
             LocalDateTime createdAt,
             LocalDateTime modifiedAt
     ) {
-        return new EventDTO(
+        return new EventDto(
                 id,
                 placeDTO,
                 eventName,
@@ -47,10 +47,10 @@ public record EventDTO(
         );
     }
 
-    public static EventDTO of(Event event) {
-        return new EventDTO(
+    public static EventDto of(Event event) {
+        return new EventDto(
                 event.getId(),
-                PlaceDTO.of(event.getPlace()),
+                PlaceDto.of(event.getPlace()),
                 event.getEventName(),
                 event.getEventStatus(),
                 event.getEventStartDatetime(),
