@@ -3,6 +3,7 @@ package com.jay.getinline.repository;
 import com.jay.getinline.constant.EventStatus;
 import com.jay.getinline.domain.Event;
 import com.jay.getinline.domain.QEvent;
+import com.jay.getinline.repository.querydsl.EventRepositoryCustom;
 import com.querydsl.core.types.dsl.ComparableExpression;
 import com.querydsl.core.types.dsl.StringExpression;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -18,6 +19,7 @@ public interface EventRepository extends
         JpaRepository<Event, Long>,
         // 아래 extneds 함으로써 readonly 기능만 구현하는 repository가 됨
 //        EventReadOnlyRepository<Event, Long>,
+        EventRepositoryCustom,
         QuerydslPredicateExecutor<Event>,
         QuerydslBinderCustomizer<QEvent> {
 

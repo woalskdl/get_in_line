@@ -33,7 +33,7 @@ public record EventResponse(
         if (eventDTO == null) return null;
         return EventResponse.of(
                 eventDTO.id(),
-                eventDTO.placeDTO(),
+                eventDTO.placeDto(),
                 eventDTO.eventName(),
                 eventDTO.eventStatus(),
                 eventDTO.eventStartDateTime(),

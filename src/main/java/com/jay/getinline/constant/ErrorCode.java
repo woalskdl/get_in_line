@@ -34,6 +34,10 @@ public enum ErrorCode {
                 .orElse(getMessage());
     }
 
+    public String getMessage(Throwable e) {
+        return this.getMessage(this.getMessage() + " - " + e.getMessage());
+    }
+
     public boolean isClientSideError() { return this.getErrorCategory() == ErrorCategory.CLIENT_SIDE; }
 
     public boolean isServerSideError() { return this.getErrorCategory() == ErrorCategory.SERVER_SIDE; }

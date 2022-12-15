@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 public record EventDto(
         Long id,
-        PlaceDto placeDTO,
+        PlaceDto placeDto,
         String eventName,
         EventStatus eventStatus,
         LocalDateTime eventStartDateTime,

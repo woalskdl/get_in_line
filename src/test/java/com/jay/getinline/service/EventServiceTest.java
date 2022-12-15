@@ -6,6 +6,7 @@ import com.jay.getinline.constant.PlaceType;
 import com.jay.getinline.domain.Event;
 import com.jay.getinline.domain.Place;
 import com.jay.getinline.dto.EventDto;
+import com.jay.getinline.dto.EventViewResponse;
 import com.jay.getinline.exception.GeneralException;
 import com.jay.getinline.repository.EventRepository;
 import com.jay.getinline.repository.PlaceRepository;
@@ -17,6 +18,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import java.time.LocalDateTime;
@@ -88,6 +92,24 @@ class EventServiceTest {
         then(eventRepository).should().findById(eventId);
     }
 
+    @DisplayName("이벤트 뷰 데이터를 검색하면, 페이징된 결과를 출력하여 보여준다.")
+    @Test
+    void givenNothing_whenSearchingEventViewResponse_thenReturnsEventViewResponsePage() {
+        // Given
+        given(eventRepository.findEventViewPageBySearchParams(null, null, null, null, null, PageRequest.ofSize(10)))
+                .willReturn(new PageImpl<>(List.of(
+                        EventViewResponse.from(EventDto.of(createEvent("오전 운동", true))),
+                        EventViewResponse.from(EventDto.of(createEvent("오후 운동", false)))
+                )));
+
+        // When
+        Page<EventViewResponse> list = sut.getEventViewResponse(null, null, null, null, null, PageRequest.ofSize(10));
+
+        // Then
+        assertThat(list).hasSize(2);
+        then(eventRepository).should().findEventViewPageBySearchParams(null, null, null, null, null, PageRequest.ofSize(10));
+    }
+
     @DisplayName("이벤트 ID로 존재하는 이벤트를 조회하면, 빈 정보를 출력하여 보여준다.")
     @Test
     void givenEvnetId_whenSearchingNoneExistEvent_thenReturnsEmptyOptional() {
@@ -125,7 +147,7 @@ class EventServiceTest {
     void givenEvent_whenCreating_thenCreatesEventAndReturnsTrue() {
         // Given
         EventDto eventDTO = EventDto.of(createEvent("오후 운동", false));
-        given(placeRepository.findById(eventDTO.placeDTO().id())).willReturn(Optional.of(createPlace()));
+        given(placeRepository.findById(eventDTO.placeDto().id())).willReturn(Optional.of(createPlace()));
         given(eventRepository.save(any(Event.class))).willReturn(any());
 
         // When
@@ -133,7 +155,7 @@ class EventServiceTest {
 
         // Then
         assertThat(result).isTrue();
-        then(placeRepository).should().findById(eventDTO.placeDTO().id());
+        then(placeRepository).should().findById(eventDTO.placeDto().id());
         then(eventRepository).should().save(any(Event.class));
     }
 

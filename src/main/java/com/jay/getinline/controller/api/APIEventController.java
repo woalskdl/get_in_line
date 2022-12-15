@@ -1,9 +1,11 @@
 package com.jay.getinline.controller.api;
 
 import com.jay.getinline.constant.EventStatus;
+import com.jay.getinline.constant.PlaceType;
 import com.jay.getinline.dto.APIDataResponse;
 import com.jay.getinline.dto.EventRequest;
 import com.jay.getinline.dto.EventResponse;
+import com.jay.getinline.dto.PlaceDto;
 import com.jay.getinline.service.EventService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -46,11 +48,32 @@ public class APIEventController {
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime eventStartDateTime,
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime eventEndDateTime
     ) {
-        List<EventResponse> response = eventService
-                .getEvents(placeId, eventName, eventStatus, eventStartDateTime, eventEndDateTime)
-                .stream().map(EventResponse::from).toList();
-
-        return APIDataResponse.of(response);
+//        List<EventResponse> response = eventService
+//                .getEvents(placeId, eventName, eventStatus, eventStartDateTime, eventEndDateTime)
+//                .stream().map(EventResponse::from).toList();
+//
+//        return APIDataResponse.of(response);
+        return APIDataResponse.of(List.of(EventResponse.of(
+                1L,
+                PlaceDto.of(
+                        1L,
+                        PlaceType.SPORTS,
+                        "배드민턴장",
+                        "서울시 가나구 다라동",
+                        "010-1111-2222",
+                        0,
+                        null,
+                        LocalDateTime.now(),
+                        LocalDateTime.now()
+                ),
+                "오후 운동",
+                EventStatus.OPENED,
+                LocalDateTime.of(2021, 1, 1, 13, 0, 0),
+                LocalDateTime.of(2021, 1, 1, 16, 0, 0),
+                0,
+                24,
+                "마스크 꼭 착용하세요"
+        )));
     }
 
     @ResponseStatus(HttpStatus.CREATED)
