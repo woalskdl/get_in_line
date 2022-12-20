@@ -1,6 +1,7 @@
 plugins {
     id 'org.springframework.boot' version '2.5.3'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'nu.studer.jooq' version '5.2.2'
     id 'java'
 }
 
@@ -16,6 +17,12 @@ configurations {
 
 repositories {
     mavenCentral()
+}
+
+project.ext {
+    querydslVersion = dependencyManagement.importedProperties['querydsl.version']
+    jooqVersion = dependencyManagement.importedProperties['jooq.version']
+    mysqlVersion = dependencyManagement.importedProperties['mysql.version']
 }
 
 dependencies {
@@ -38,8 +45,12 @@ dependencies {
     implementation "com.querydsl:querydsl-jpa"
 //    implementation "com.querydsl:querydsl-core" // querydsl-jpa 에 포함
     implementation "com.querydsl:querydsl-collections"
-    annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jpa" // querydsl JPAAnnotationProcessor 사용 지정
+    annotationProcessor "com.querydsl:querydsl-apt:${project.querydslVersion}:jpa" // querydsl JPAAnnotationProcessor 사용 지정
     annotationProcessor "jakarta.annotation:jakarta.annotation-api" // java.lang.NoClassDefFoundError (javax.annotation.Generated) 발생 대응
+
+    // Jooq
+    implementation 'org.springframework.boot:spring-boot-starter-jooq'
+    jooqGenerator "mysql:mysql-connector-java:${project.mysqlVersion}"
 
     implementation 'org.springframework.data:spring-data-rest-hal-explorer'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
@@ -66,4 +77,70 @@ tasks.withType(JavaCompile) {
 // gradle clean 시에 QClass 디렉토리 삭제
 clean {
     delete file(generated)
+}
+
+// https://github.com/etiennestuder/gradle-jooq-plugin
+def generatedJooq = 'src/main/generated-jooq'
+
+jooq {
+    // use jOOQ version defined in Spring Boot
+    version = project.jooqVersion
+
+    configurations {
+        main {
+            generationTool {
+                logging = org.jooq.meta.jaxb.Logging.WARN
+                jdbc {
+                    driver = 'com.mysql.cj.jdbc.Driver'
+                    url = 'jdbc:mysql://localhost:3306/getinline'
+                    user = 'root'
+                    password = ''
+                }
+                generator {
+                    name = 'org.jooq.codegen.JavaGenerator'
+                    database {
+                        name = 'org.jooq.meta.mysql.MySQLDatabase'
+                        inputSchema = 'getinline'
+                        includes = '.*'
+                        excludes = ''
+                        forcedTypes {
+                            forcedType {
+                                userType = 'com.jay.getinline.constant.EventStatus'
+                                enumConverter = true
+                                includeExpression = '.*\\.event_status'
+                                includeTypes = '.*'
+                            }
+                            forcedType {
+                                userType = 'com.jay.getinline.constant.PlaceType'
+                                enumConverter = true
+                                includeExpression = '.*\\.place_type'
+                                includeTypes = '.*'
+                            }
+                        }
+                    }
+                    generate {
+                        deprecated = false
+                        records = true
+                        immutablePojos = true
+                        fluentSetters = true
+                        javaTimeTypes = true
+                    }
+                    target {
+                        packageName = 'com.jay.getinline'
+                        directory = generatedJooq
+                    }
+                    strategy.name = "org.jooq.codegen.DefaultGeneratorStrategy"
+                }
+            }
+        }
+    }
+}
+
+tasks.named('generateJooq').configure {
+    allInputsDeclared = true
+    outputs.cacheIf {true}
+}
+
+tasks.named('clean') {
+    'cleanGenerateJooq'
 }
