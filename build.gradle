@@ -1,7 +1,7 @@
 plugins {
     id 'org.springframework.boot' version '2.5.3'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-    id 'nu.studer.jooq' version '5.2.2'
+//    id 'nu.studer.jooq' version '5.2.2'
     id 'java'
 }
 
@@ -21,7 +21,7 @@ repositories {
 
 project.ext {
     querydslVersion = dependencyManagement.importedProperties['querydsl.version']
-    jooqVersion = dependencyManagement.importedProperties['jooq.version']
+//    jooqVersion = dependencyManagement.importedProperties['jooq.version']
     mysqlVersion = dependencyManagement.importedProperties['mysql.version']
 }
 
@@ -49,8 +49,8 @@ dependencies {
     annotationProcessor "jakarta.annotation:jakarta.annotation-api" // java.lang.NoClassDefFoundError (javax.annotation.Generated) 발생 대응
 
     // Jooq
-    implementation 'org.springframework.boot:spring-boot-starter-jooq'
-    jooqGenerator "mysql:mysql-connector-java:${project.mysqlVersion}"
+//    implementation 'org.springframework.boot:spring-boot-starter-jooq'
+//    jooqGenerator "mysql:mysql-connector-java:${project.mysqlVersion}"
 
     implementation 'org.springframework.data:spring-data-rest-hal-explorer'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
@@ -79,6 +79,7 @@ clean {
     delete file(generated)
 }
 
+/*
 // https://github.com/etiennestuder/gradle-jooq-plugin
 def generatedJooq = 'src/main/generated-jooq'
 
@@ -141,6 +142,6 @@ tasks.named('generateJooq').configure {
     outputs.cacheIf {true}
 }
 
-tasks.named('clean') {
-    'cleanGenerateJooq'
-}
+clean {
+    delete file(generatedJooq)
+}*/

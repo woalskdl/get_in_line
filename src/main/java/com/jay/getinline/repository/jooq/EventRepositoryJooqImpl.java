@@ -1,33 +1,25 @@
 package com.jay.getinline.repository.jooq;
 
 import com.jay.getinline.constant.EventStatus;
-import com.jay.getinline.tables.Event;
 import com.jay.getinline.dto.EventViewResponse;
-import com.jay.getinline.tables.Place;
 import lombok.RequiredArgsConstructor;
-import org.jooq.Condition;
-import org.jooq.DSLContext;
-import org.jooq.SelectField;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
-import static org.jooq.impl.DSL.trueCondition;
-
+@Deprecated
 @RequiredArgsConstructor
 @Repository
-public class EventRepositoryJooqImpl implements EventRepositoryJooq{
+public class EventRepositoryJooqImpl implements EventRepositoryJooq {
 
-    private final DSLContext dslContext;
+//    private final DSLContext dslContext;
 
     @Override
     public Page<EventViewResponse> findEventViewPageBySearchParams(String placeName, String eventName, EventStatus eventStatus, LocalDateTime eventStartDateTime, LocalDateTime eventEndDateTime, Pageable pageable) {
 
-        final Event event = Event.EVENT;
+        /*final Event event = Event.EVENT;
         final Place place = Place.PLACE;
 
         Condition condition = trueCondition();
@@ -77,7 +69,9 @@ public class EventRepositoryJooqImpl implements EventRepositoryJooq{
                 .limit(pageable.getOffset(), pageable.getPageSize())
                 .fetchInto(EventViewResponse.class);
 
-        return new PageImpl<>(pagedList, pageable, count);
+        return new PageImpl<>(pagedList, pageable, count);*/
+
+        return null;
     }
 
 }

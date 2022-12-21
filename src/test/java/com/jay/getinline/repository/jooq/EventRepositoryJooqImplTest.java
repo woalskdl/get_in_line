@@ -3,7 +3,6 @@ package com.jay.getinline.repository.jooq;
 import com.jay.getinline.config.JooqConfiguration;
 import com.jay.getinline.constant.EventStatus;
 import com.jay.getinline.dto.EventViewResponse;
-import org.jooq.DSLContext;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,13 +17,14 @@ import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@Deprecated
 @DisplayName("DB - 이벤트 (Jooq)")
-@Import({EventRepositoryJooqImpl.class, JooqConfiguration.class})
-@EnableConfigurationProperties({JooqConfiguration.CustomJooqProperties.class})
-@JooqTest
+//@Import({EventRepositoryJooqImpl.class, JooqConfiguration.class})
+//@EnableConfigurationProperties({JooqConfiguration.CustomJooqProperties.class})
+//@JooqTest
 class EventRepositoryJooqImplTest {
 
-    private final DSLContext dslContext;
+    /*private final DSLContext dslContext;
     private final EventRepositoryJooq sut;
 
     public EventRepositoryJooqImplTest(
@@ -108,6 +108,6 @@ class EventRepositoryJooqImplTest {
         assertThat(eventPage.getNumberOfElements()).isEqualTo(5);
         assertThat(eventPage.getTotalElements()).isEqualTo(26);
 
-    }
+    }*/
 
 }
