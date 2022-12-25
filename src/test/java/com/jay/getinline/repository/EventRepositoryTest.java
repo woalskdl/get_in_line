@@ -16,6 +16,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
@@ -33,6 +34,11 @@ class EventRepositoryTest {
     ) {
         this.sut = sut;
         this.testEntityManager = testEntityManager;
+    }
+
+    @Test
+    void aaa() {
+        List<Event> list = sut.findAll();
     }
 
     @Test

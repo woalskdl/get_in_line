@@ -58,8 +58,8 @@ public record EventViewResponse(
                 eventDTO.placeDto().placeName(),
                 eventDTO.eventName(),
                 eventDTO.eventStatus(),
-                eventDTO.eventStartDateTime(),
-                eventDTO.eventEndDateTime(),
+                eventDTO.eventStartDatetime(),
+                eventDTO.eventEndDatetime(),
                 eventDTO.currentNumberOfPeople(),
                 eventDTO.capacity(),
                 eventDTO.memo()

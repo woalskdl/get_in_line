@@ -6,11 +6,11 @@ import java.time.LocalDateTime;
 
 public record EventResponse(
         Long id,
-        PlaceDto placeDTO,
+        PlaceDto place,
         String eventName,
         EventStatus eventStatus,
-        LocalDateTime eventStartDateTime,
-        LocalDateTime eventEndDateTime,
+        LocalDateTime eventStartDatetime,
+        LocalDateTime eventEndDatetime,
         Integer currentNumberOfPeople,
         Integer capacity,
         String memo
@@ -20,13 +20,13 @@ public record EventResponse(
             PlaceDto placeDTO,
             String eventName,
             EventStatus eventStatus,
-            LocalDateTime eventStartDateTime,
-            LocalDateTime eventEndDateTime,
+            LocalDateTime eventStartDatetime,
+            LocalDateTime eventEndDatetime,
             Integer currentNumberOfPeople,
             Integer capacity,
             String memo
     ) {
-        return new EventResponse(id, placeDTO, eventName, eventStatus, eventStartDateTime, eventEndDateTime, currentNumberOfPeople, capacity, memo);
+        return new EventResponse(id, placeDTO, eventName, eventStatus, eventStartDatetime, eventEndDatetime, currentNumberOfPeople, capacity, memo);
     }
 
     public static EventResponse from(EventDto eventDTO) {
@@ -36,11 +36,15 @@ public record EventResponse(
                 eventDTO.placeDto(),
                 eventDTO.eventName(),
                 eventDTO.eventStatus(),
-                eventDTO.eventStartDateTime(),
-                eventDTO.eventEndDateTime(),
+                eventDTO.eventStartDatetime(),
+                eventDTO.eventEndDatetime(),
                 eventDTO.currentNumberOfPeople(),
                 eventDTO.capacity(),
                 eventDTO.memo()
         );
+    }
+
+    public String getPlaceName() {
+        return this.place().placeName();
     }
 }

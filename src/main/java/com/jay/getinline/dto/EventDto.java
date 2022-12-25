@@ -11,8 +11,8 @@ public record EventDto(
         PlaceDto placeDto,
         String eventName,
         EventStatus eventStatus,
-        LocalDateTime eventStartDateTime,
-        LocalDateTime eventEndDateTime,
+        LocalDateTime eventStartDatetime,
+        LocalDateTime eventEndDatetime,
         Integer currentNumberOfPeople,
         Integer capacity,
         String memo,
@@ -24,8 +24,8 @@ public record EventDto(
             PlaceDto placeDTO,
             String eventName,
             EventStatus eventStatus,
-            LocalDateTime eventStartDateTime,
-            LocalDateTime eventEndDateTime,
+            LocalDateTime eventStartDatetime,
+            LocalDateTime eventEndDatetime,
             Integer currentNumberOfPeople,
             Integer capacity,
             String memo,
@@ -37,8 +37,8 @@ public record EventDto(
                 placeDTO,
                 eventName,
                 eventStatus,
-                eventStartDateTime,
-                eventEndDateTime,
+                eventStartDatetime,
+                eventEndDatetime,
                 currentNumberOfPeople,
                 capacity,
                 memo,
@@ -68,8 +68,8 @@ public record EventDto(
                 place,
                 eventName,
                 eventStatus,
-                eventStartDateTime,
-                eventEndDateTime,
+                eventStartDatetime,
+                eventEndDatetime,
                 currentNumberOfPeople,
                 capacity,
                 memo
@@ -79,8 +79,8 @@ public record EventDto(
     public Event updateEntity(Event event) {
         if (eventName != null) { event.setEventName(eventName); }
         if (eventStatus != null) { event.setEventStatus(eventStatus); }
-        if (eventStartDateTime != null) { event.setEventStartDatetime(eventStartDateTime); }
-        if (eventEndDateTime != null) { event.setEventEndDatetime(eventEndDateTime); }
+        if (eventStartDatetime != null) { event.setEventStartDatetime(eventStartDatetime); }
+        if (eventEndDatetime != null) { event.setEventEndDatetime(eventEndDatetime); }
         if (currentNumberOfPeople != null) { event.setCurrentNumberOfPeople(currentNumberOfPeople); }
         if (capacity != null) { event.setCapacity(capacity); }
         if (memo != null) { event.setMemo(memo); }
