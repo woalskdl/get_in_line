@@ -37,6 +37,13 @@ class EventRepositoryTest {
     }
 
     @Test
+    void test1() {
+        Event event = sut.findById(1L).get();
+
+        System.out.println(event);
+    }
+
+    @Test
     void aaa() {
         List<Event> list = sut.findAll();
     }
