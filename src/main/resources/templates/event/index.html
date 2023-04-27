@@ -2,42 +2,36 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Title</title>
+  <title>이벤트 리스트</title>
 </head>
 <body>
-<!-- // 내생각 // html 을 server side rendering 하는 방식이다 보니 페이징 처리 등 새로운 데이터를 뿌리기 위해선 페이지 리로드가 필요해 보임.
-(관련하여 페이지 리로드를 하지 않는 방법은 아직 잘 모르겠음. 내가 안찾아봤음)
-이런 부분으로 페이지의 각 element 들이 독립적이고 동적으로 render 하는 방식을 선호하는 최근의 추세와는 맞지 않는 것으로 추측.
-이런 이유로 Thymeleaf 템플릿보다는 javascript 를 더 많이 사용하지 않나 싶기도 -->
 <p>
-  <!-- No-Operation token : 타임리프 동작이 적용되지 않을 경우 태그 내부의 프로토타입 텍스트로 태그를 완성한다 -->
   <span id="eventsTitle">This is events page.</span>
 </p>
 <table id="eventsTable">
   <thead>
-  <tr>
-    <th>장소명</th>
-    <th>이벤트명</th>
-    <th>이벤트 상태</th>
-    <th>시작 일시</th>
-    <th>종료 일시</th>
-    <th>현재 인원</th>
-    <th>최대 수용 인원</th>
-    <th>상세</th>
-  </tr>
+    <tr>
+      <th>장소명</th>
+      <th>이벤트명</th>
+      <th>이벤트 상태</th>
+      <th>시작 일시</th>
+      <th>종료 일시</th>
+      <th>현재 인원</th>
+      <th>최대 수용 인원</th>
+      <th>상세</th>
+    </tr>
   </thead>
-  <!-- 타임리프 정상 작동하면 첫번째 것만 남기고 삭제한다. >> 동작하지 않을 경우 목업 코드를 표출할 수 있음 -->
   <tbody>
-  <tr>
-    <td class="placeName">1</td>
-    <td class="eventName">테스트 이벤트</td>
-    <td class="eventStatus">OPENED</td>
-    <td class="eventStartDatetime">2021-01-01 09:00:00</td>
-    <td class="eventEndDatetime">2021-01-01 10:00:00</td>
-    <td class="currentNumberOfPeople">0</td>
-    <td class="capacity">10</td>
-    <td><a>상세</a></td>
-  </tr>
+    <tr>
+      <td class="placeName">1</td>
+      <td class="eventName">테스트 이벤트</td>
+      <td class="eventStatus">OPENED</td>
+      <td class="eventStartDatetime">2021-01-01 09:00:00</td>
+      <td class="eventEndDatetime">2021-01-01 10:00:00</td>
+      <td class="currentNumberOfPeople">0</td>
+      <td class="capacity">10</td>
+      <td><a>상세</a></td>
+    </tr>
   </tbody>
 </table>
 </body>

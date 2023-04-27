@@ -1,12 +1,11 @@
 plugins {
     id 'org.springframework.boot' version '2.5.3'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-//    id 'nu.studer.jooq' version '5.2.2'
     id 'java'
 }
 
-group = 'com.get_in_line'
-version = '0.1.2-SNAPSHOT'
+group = 'com.uno'
+version = '0.1.3-SNAPSHOT'
 sourceCompatibility = '16'
 
 configurations {
@@ -21,57 +20,45 @@ repositories {
 
 project.ext {
     querydslVersion = dependencyManagement.importedProperties['querydsl.version']
-//    jooqVersion = dependencyManagement.importedProperties['jooq.version']
-    mysqlVersion = dependencyManagement.importedProperties['mysql.version']
 }
 
 dependencies {
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.springframework.boot:spring-boot-starter-data-rest'
+    implementation 'org.springframework.data:spring-data-rest-hal-explorer'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     runtimeOnly 'com.h2database:h2'
+    runtimeOnly 'mysql:mysql-connector-java'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
-    runtimeOnly 'mysql:mysql-connector-java'
-    runtimeOnly 'org.postgresql:postgresql'
-
-    // queryDSL 설정
+    // Querydsl
     implementation "com.querydsl:querydsl-jpa"
-//    implementation "com.querydsl:querydsl-core" // querydsl-jpa 에 포함
     implementation "com.querydsl:querydsl-collections"
     annotationProcessor "com.querydsl:querydsl-apt:${project.querydslVersion}:jpa" // querydsl JPAAnnotationProcessor 사용 지정
     annotationProcessor "jakarta.annotation:jakarta.annotation-api" // java.lang.NoClassDefFoundError (javax.annotation.Generated) 발생 대응
-
-    // Jooq
-//    implementation 'org.springframework.boot:spring-boot-starter-jooq'
-//    jooqGenerator "mysql:mysql-connector-java:${project.mysqlVersion}"
-
-    implementation 'org.springframework.data:spring-data-rest-hal-explorer'
-    developmentOnly 'org.springframework.boot:spring-boot-devtools'
 }
 
 test {
     useJUnitPlatform()
 }
 
-// querydsl 적용 - intellij 와 gradle 의 기능이 충돌(서로 build 하려는 위치가 동일)해서 수동으로 별도로 설정해주는 것
-// / 설정에서 build tool > gradle 에서 gradle 이 아닌 intellij 로 설정해야함
-def generated='src/main/generated'
+//// Querydsl 설정부
+def generated = 'src/main/generated'
+
+// querydsl QClass 파일 생성 위치를 지정
+tasks.withType(JavaCompile) {
+    options.getGeneratedSourceOutputDirectory().set(file(generated))
+}
 
 // java source set 에 querydsl QClass 위치 추가
 sourceSets {
     main.java.srcDirs += [ generated ]
-}
-
-// querydsl QClass 파일 위치를 잡아주는 설정
-tasks.withType(JavaCompile) {
-    options.getGeneratedSourceOutputDirectory().set(file(generated))
 }
 
 // gradle clean 시에 QClass 디렉토리 삭제
@@ -79,69 +66,9 @@ clean {
     delete file(generated)
 }
 
-/*
-// https://github.com/etiennestuder/gradle-jooq-plugin
-def generatedJooq = 'src/main/generated-jooq'
-
-jooq {
-    // use jOOQ version defined in Spring Boot
-    version = project.jooqVersion
-
-    configurations {
-        main {
-            generationTool {
-                logging = org.jooq.meta.jaxb.Logging.WARN
-                jdbc {
-                    driver = 'com.mysql.cj.jdbc.Driver'
-                    url = 'jdbc:mysql://localhost:3306/getinline'
-                    user = 'root'
-                    password = ''
-                }
-                generator {
-                    name = 'org.jooq.codegen.JavaGenerator'
-                    database {
-                        name = 'org.jooq.meta.mysql.MySQLDatabase'
-                        inputSchema = 'getinline'
-                        includes = '.*'
-                        excludes = ''
-                        forcedTypes {
-                            forcedType {
-                                userType = 'com.jay.getinline.constant.EventStatus'
-                                enumConverter = true
-                                includeExpression = '.*\\.event_status'
-                                includeTypes = '.*'
-                            }
-                            forcedType {
-                                userType = 'com.jay.getinline.constant.PlaceType'
-                                enumConverter = true
-                                includeExpression = '.*\\.place_type'
-                                includeTypes = '.*'
-                            }
-                        }
-                    }
-                    generate {
-                        deprecated = false
-                        records = true
-                        immutablePojos = true
-                        fluentSetters = true
-                        javaTimeTypes = true
-                    }
-                    target {
-                        packageName = 'com.jay.getinline'
-                        directory = generatedJooq
-                    }
-                    strategy.name = "org.jooq.codegen.DefaultGeneratorStrategy"
-                }
-            }
-        }
+//// Heroku 설정
+jar {
+    manifest {
+        attributes('Main-Class': 'com.uno.getinline.GetInLineApplication')
     }
 }
-
-tasks.named('generateJooq').configure {
-    allInputsDeclared = true
-    outputs.cacheIf {true}
-}
-
-clean {
-    delete file(generatedJooq)
-}*/
