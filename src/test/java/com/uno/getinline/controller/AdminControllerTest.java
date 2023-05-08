@@ -130,6 +130,7 @@ class AdminControllerTest {
     void givenNewPlace_whenSavingPlace_thenSavesPlaceAndReturnsToListPage() throws Exception {
         // Given
         PlaceRequest placeRequest = PlaceRequest.of(
+                null,
                 PlaceType.SPORTS,
                 "강남 배드민턴",
                 "서울시 강남구 강남동",
@@ -138,7 +139,7 @@ class AdminControllerTest {
                 null
         );
 
-        given(placeService.createPlace(placeRequest.toDto())).willReturn(true);
+        given(placeService.upsertPlace(placeRequest.toDto())).willReturn(true);
 
         // When & Then
         mvc.perform(
@@ -151,7 +152,7 @@ class AdminControllerTest {
                 .andExpect(redirectedUrl("/admin/confirm"))
                 .andExpect(flash().attribute("adminOperationStatus", AdminOperationStatus.CREATE))
                 .andExpect(flash().attribute("redirectUrl", "/admin/places"));
-        then(placeService).should().createPlace(placeRequest.toDto());
+        then(placeService).should().upsertPlace(placeRequest.toDto());
     }
 
     @DisplayName("[view][GET] 어드민 페이지 - 이벤트 리스트 뷰")
@@ -240,8 +241,8 @@ class AdminControllerTest {
     void givenNewEvent_whenSavingEvent_thenSavesEventAndReturnsToListPage() throws Exception {
         // Given
         long placeId = 1L;
-        EventRequest eventRequest = EventRequest.of("test event", EventStatus.OPENED, LocalDateTime.now(), LocalDateTime.now(), 10, 10, null);
-        given(eventService.createEvent(eventRequest.toDto(PlaceDto.idOnly(placeId)))).willReturn(true);
+        EventRequest eventRequest = EventRequest.of(null, "test event", EventStatus.OPENED, LocalDateTime.now(), LocalDateTime.now(), 10, 10, null);
+        given(eventService.upsertEvent(eventRequest.toDto(PlaceDto.idOnly(placeId)))).willReturn(true);
 
         // When & Then
         mvc.perform(
@@ -255,7 +256,7 @@ class AdminControllerTest {
                 .andExpect(flash().attribute("adminOperationStatus", AdminOperationStatus.CREATE))
                 .andExpect(flash().attribute("redirectUrl", "/admin/places/" + placeId))
                 .andDo(MockMvcResultHandlers.print());
-        then(eventService).should().createEvent(eventRequest.toDto(PlaceDto.idOnly(placeId)));
+        then(eventService).should().upsertEvent(eventRequest.toDto(PlaceDto.idOnly(placeId)));
     }
 
     @DisplayName("[view][GET] 어드민 페이지 - 기능 확인 페이지")
@@ -282,6 +283,7 @@ class AdminControllerTest {
     void givenObject_whenConverting_thenReturnsFormData() {
         // Given
         PlaceRequest placeRequest = PlaceRequest.of(
+                null,
                 PlaceType.SPORTS,
                 "강남 배드민턴",
                 "서울시 강남구 강남동",
