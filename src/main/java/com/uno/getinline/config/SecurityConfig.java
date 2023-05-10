@@ -31,7 +31,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 // 해당 패턴은 모두 허용
-                .antMatchers("/", "/evnets/**", "/places/**")
+                .antMatchers("/", "/events/**", "/places/**")
                     .permitAll()
                 // 그 외 나머지는 인증
                 .anyRequest()
