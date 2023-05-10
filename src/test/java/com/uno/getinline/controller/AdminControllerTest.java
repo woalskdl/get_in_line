@@ -290,8 +290,7 @@ class AdminControllerTest {
                 .andExpect(view().name("redirect:/admin/confirm"))
                 .andExpect(redirectedUrl("/admin/confirm"))
                 .andExpect(flash().attribute("adminOperationStatus", AdminOperationStatus.CREATE))
-                .andExpect(flash().attribute("redirectUrl", "/admin/places/" + placeId))
-                .andDo(MockMvcResultHandlers.print());
+                .andExpect(flash().attribute("redirectUrl", "/admin/places/" + placeId));
         then(eventService).should().upsertEvent(eventRequest.toDto(PlaceDto.idOnly(placeId)));
     }
 
@@ -330,8 +329,7 @@ class AdminControllerTest {
                 .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
                 .andExpect(view().name("admin/confirm"))
                 .andExpect(model().attribute("adminOperationStatus", AdminOperationStatus.CREATE))
-                .andExpect(model().attribute("redirectUrl", "/admin/places"))
-                .andDo(MockMvcResultHandlers.print());
+                .andExpect(model().attribute("redirectUrl", "/admin/places"));
     }
 
     @DisplayName("객체를 form data 로 반환")

@@ -13,7 +13,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -38,7 +37,8 @@ class EventControllerTest {
 
     private final MockMvc mvc;
 
-    @MockBean private EventService eventService;
+    @MockBean
+    private EventService eventService;
 
     public EventControllerTest(@Autowired MockMvc mvc) {
         this.mvc = mvc;
@@ -96,15 +96,15 @@ class EventControllerTest {
 
         // When & Then
         mvc.perform(
-                get("/events/custom")
-                        .queryParam("placeName", placeName)
-                        .queryParam("eventName", eventName)
-                        .queryParam("eventStatus", eventStatus.name())
-                        .queryParam("eventStartDatetime", eventStartDatetime.toString())
-                        .queryParam("eventEndDatetime", eventEndDatetime.toString())
-                        .queryParam("page", "1")
-                        .queryParam("size", "3")
-        )
+                        get("/events/custom")
+                                .queryParam("placeName", placeName)
+                                .queryParam("eventName", eventName)
+                                .queryParam("eventStatus", eventStatus.name())
+                                .queryParam("eventStartDatetime", eventStartDatetime.toString())
+                                .queryParam("eventEndDatetime", eventEndDatetime.toString())
+                                .queryParam("page", "1")
+                                .queryParam("size", "3")
+                )
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
                 .andExpect(view().name("event/index"))
@@ -132,15 +132,15 @@ class EventControllerTest {
 
         // When & Then
         mvc.perform(
-                get("/events/custom")
-                        .queryParam("placeName", placeName)
-                        .queryParam("eventName", eventName)
-                        .queryParam("eventStatus", eventStatus.name())
-                        .queryParam("eventStartDatetime", eventStartDatetime.toString())
-                        .queryParam("eventEndDatetime", eventEndDatetime.toString())
-                        .queryParam("page", "1")
-                        .queryParam("size", "3")
-        )
+                        get("/events/custom")
+                                .queryParam("placeName", placeName)
+                                .queryParam("eventName", eventName)
+                                .queryParam("eventStatus", eventStatus.name())
+                                .queryParam("eventStartDatetime", eventStartDatetime.toString())
+                                .queryParam("eventEndDatetime", eventEndDatetime.toString())
+                                .queryParam("page", "1")
+                                .queryParam("size", "3")
+                )
                 .andExpect(status().isForbidden()) // validation error 는 403 으로 내려온다.
                 .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
                 .andExpect(view().name("error"))
