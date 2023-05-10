@@ -40,9 +40,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // 로그인, 로그아웃 페이지는 모두 허용
                 .formLogin()
                     .permitAll()
+                    .loginPage("/login")
+                    .defaultSuccessUrl("/admin/places")
                 .and()
                 .logout()
                     .permitAll()
+                    .logoutUrl("/logout")
                 // 로그아웃 성공하면 루트로
                     .logoutSuccessUrl("/");
     }
