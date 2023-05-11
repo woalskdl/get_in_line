@@ -2,5 +2,6 @@
 <thlogic>
   <attr sel="#status" th:text="${adminOperationStatus?.message} ?: _" />
   <attr sel="#backToPage" th:onclick="'location.replace(\'' + @{${redirectUrl}} + '\');'" />
+  <!-- element 안에 자바스크립트 평문으로 주입 -->
   <attr sel="script" th:inline="javascript" th:utext="'window.onload = (event) => { setTimeout(() => window.location.replace(\'' + ${redirectUrl ?: ''} + '\'), 1500); };'" />
 </thlogic>

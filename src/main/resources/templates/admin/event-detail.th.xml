@@ -3,7 +3,7 @@
   <attr sel="#logout" th:onclick="'location.href=\'' + @{/logout} + '\''" />
   <attr sel="#eventTitle" th:text="'이벤트 상세 - 관리자 (' + ${adminOperationStatus.message} + ')'" />
   <attr sel="#eventTable">
-    <attr sel="#placeName" th:value="*{event?.placeName}" />
+    <attr sel="#placeName" th:value="*{event?.placeName}" />    <!-- event null safe -->
     <attr sel="#eventName" th:value="*{event?.eventName}" />
     <attr sel="#eventStatus" th:remove="all-but-first">
       <attr sel="option" th:each="status : ${eventStatusOption}" th:value="${status}" th:text="${status}" />
@@ -15,8 +15,8 @@
     <attr sel="#memo" th:text="*{event?.memo}" />
   </attr>
   <attr sel="#eventId" th:value="${event?.id}" />
-  <attr sel="#csrf" th:value="${_csrf.token}" th:name="${_csrf.parameterName}" />
-  <attr sel="#saveEvent" th:form="eventForm" th:formaction="@{/admin/places/{placeId}/events(placeId=${event?.place.id})}" th:formmethod="post" />
+  <attr sel="#csrf" th:value="${_csrf.token}" th:name="${_csrf.parameterName}" /> <!-- csrf 토큰 가져오기 -->
+  <attr sel="#saveEvent" th:form="eventForm" th:formaction="@{/admin/places/{placeId}/events(placeId=${event?.place.id})}" th:formmethod="post" /> <!-- 링크 표현식 안에 변수 넣기 placeId << event.place.id -->
   <attr sel="#removeEvent" th:if="${event?.id} != null" th:onclick="'location.href=\'' + @{/admin/events/{eventId}/delete(eventId=${event?.id})} + '\''" />
   <attr sel="#backToEvents" th:onclick="'location.href=\'' + @{/admin/events} + '\''" />
 </thlogic>
